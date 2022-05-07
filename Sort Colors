@@ -1,0 +1,9 @@
+/* Sort Colors Program
+Date:- 07/05/22 */
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+    }
+};

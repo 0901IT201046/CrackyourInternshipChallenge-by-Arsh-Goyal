@@ -1,0 +1,36 @@
+/* Set Matrix Zeroes
+Date:- 07/05/22 */
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int e=INT_MAX-1;
+        int r=matrix.size();
+        int c=matrix[0].size();
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(matrix[i][j]==0)
+                {
+                    for(int r1=0;r1<r;r1++) 
+                        if(matrix[r1][j]!=0)
+                            matrix[r1][j]=e;
+                    
+                    for(int c1=0;c1<c;c1++) 
+                        if(matrix[i][c1]!=0)
+                            matrix[i][c1]=e;
+                }
+            }
+        }
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(matrix[i][j]==e)
+                    matrix[i][j]=0;
+            }
+        }
+        
+    }
+};

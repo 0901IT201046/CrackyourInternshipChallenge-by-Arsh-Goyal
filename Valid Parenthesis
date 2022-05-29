@@ -1,0 +1,24 @@
+class Solution {
+    char invert(char ch)
+    {
+        if(ch=='(') return ')';
+        else if(ch=='[') return ']';
+        return '}';
+    }
+        
+public:
+    bool isValid(string s) 
+    {
+        stack<char> st;
+        for(int i = 0;i<s.size();i++)
+        {
+            if(s[i]==')' || s[i]==']' || s[i]=='}')
+            {
+                if(st.empty() || st.top()!=s[i]) return false;
+                st.pop();
+            }
+            else st.push(invert(s[i]));
+        }
+        return st.empty();
+    }
+};

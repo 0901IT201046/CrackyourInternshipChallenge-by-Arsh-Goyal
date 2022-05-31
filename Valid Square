@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
+
+        vector<double> distances = {};
+        distances.push_back(getDistance(p1, p2));
+        distances.push_back(getDistance(p1, p3));
+        distances.push_back(getDistance(p1, p4));
+        distances.push_back(getDistance(p2, p3));
+        distances.push_back(getDistance(p2, p4));
+        distances.push_back(getDistance(p3, p4));
+        sort(distances.begin(), distances.end());
+		if(distances[0] < 0.00001) return false;
+        if(abs(distances[0] - distances[1]) > 0.00001) return false;
+        if(abs(distances[0] - distances[2]) > 0.00001) return false;
+        if(abs(distances[0] - distances[3]) > 0.00001) return false;
+        if(abs(distances[4] - distances[5]) > 0.00001) return false;
+        return true;
+        
+    }
+    
+    
+private:
+    double getDistance(vector<int>& p1, vector<int>& p2){
+        return sqrt(pow(p1[0] - p2[0], 2) + pow(p1[1] - p2[1], 2));
+    }
+};

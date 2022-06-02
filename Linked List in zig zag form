@@ -1,0 +1,23 @@
+class Solution
+{
+    public:
+    Node *zigZag(Node* head)
+    {
+    int count=0;
+    Node* p=head;
+    while(p->next)
+    {
+        count++;
+        if(count%2!=0 && p->data > p->next->data)
+        {
+            swap(p->data,p->next->data);
+        }
+        else if(count%2==0 && p->data < p->next->data)
+        {
+            swap(p->data,p->next->data);
+        }
+        p=p->next;
+    }
+    return head;
+    }
+};

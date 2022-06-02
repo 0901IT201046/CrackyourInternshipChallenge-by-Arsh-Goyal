@@ -1,0 +1,38 @@
+void reorderList(Node* head) {
+    Node* f=head->next;
+   Node* b=head;
+   int c=0,i;
+   stack<Node*> s;
+   while(b!=NULL)
+   {
+       c++;
+       b=b->next;
+   }
+   b=head;
+   if(c%2==0)
+   {
+       for(i=1;i<c/2;i++)
+       {
+            s.push(b);
+            b=b->next;
+       }
+       b=b->next;
+   }
+     else
+   {
+       for(i=1;i<=c/2;i++)
+       {
+            s.push(b);
+            b=b->next;
+       }
+   }
+   while(!s.empty())
+   {
+       f=b->next;
+       b->next=f->next;
+       Node* t=(s.top())->next;
+       s.top()->next=f;
+       f->next=t;
+       s.pop();
+   }
+}

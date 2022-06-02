@@ -1,0 +1,35 @@
+class Solution{
+public:
+    Node* divide(int N, Node *head)
+    {
+          Node *p = head, *q = head;
+       vector<int> ans;
+       
+       for(int i=0;i<N;i++)
+       {
+           if(p->data%2==0)
+           {
+               ans.push_back(p->data);
+           }
+           p=p->next;
+       }
+       
+       for(int i=0;i<N;i++)
+       {
+           if(q->data%2!=0)
+           {
+               ans.push_back(q->data);
+           }
+           q=q->next;
+       }
+          struct Node* hd= new Node(ans[0]);
+       struct Node* lt= hd;
+       
+       for(int i=1;i<N;i++)
+       {
+           lt->next = new Node(ans[i]);
+           lt=lt->next;
+       }
+       return hd;
+    }
+};

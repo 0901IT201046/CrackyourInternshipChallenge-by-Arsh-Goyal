@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+   
+    void inorder(TreeNode* root,vector<int> &v)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        inorder(root->left,v);
+        v.push_back(root->val);
+        inorder(root->right,v);
+    }
+    bool rg = false;
+    void find(TreeNode* root, TreeNode* subRoot)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->val==subRoot->val)
+        {
+           vector<int> v1;
+            inorder(root,v1);
+            vector<int> v2;
+            inorder(subRoot,v2);
+            if(v1==v2)
+            {
+                rg = true;
+                return;
+            }
+        }
+        find(root->left,subRoot);
+        find(root->right,subRoot);
+    }
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) 
+    {
+        find(root,subRoot);
+        return rg;
+    }
+};

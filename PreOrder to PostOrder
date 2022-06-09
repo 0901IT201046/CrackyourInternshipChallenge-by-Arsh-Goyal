@@ -1,0 +1,28 @@
+//User function template in C++
+
+
+//Function that constructs BST from its preorder traversal.
+Node* cons_tree(int pre[],int i,int j)
+{
+    if(i==j)
+    {
+        Node* temp=newNode(pre[i]);
+        return temp;
+    }
+    if(i>j) 
+        return NULL;
+    int I=i+1;
+    for(;I<=j;I++)
+    {
+        if(pre[I]>=pre[i]) 
+            break;
+    }
+    Node* root=newNode(pre[i]);
+    root->left=cons_tree(pre,i+1,I-1);
+    root->right=cons_tree(pre,I,j);
+    return root;
+}
+Node* post_order(int pre[], int size)
+{
+    return cons_tree(pre,0,size-1);
+}

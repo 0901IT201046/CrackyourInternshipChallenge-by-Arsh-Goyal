@@ -1,0 +1,51 @@
+/*The Node structure is
+struct Node {
+int data;
+Node * right, * left;
+};*/
+
+/*You are required to complete below method */
+bool check(Node* root,vector<int>&v)
+{
+   if(root==NULL) return true;
+   int s=v.size();
+   if(root->left==NULL && root->right==NULL)
+   {
+       if(root->data==1 && v[s-1]==2) 
+       {
+           return false;
+       }
+       int p=root->data+1;
+       int k=root->data-1;
+       int count=0;
+       for(int i=0;i<s;i++)
+       {
+           if(v[i]==p)
+           {
+               count++;
+           }
+           if(v[i]==k)
+           {
+               count++;
+           }
+       }
+       if(count ==2)
+       {
+           return false;
+       }
+       return true;
+   }
+   v.push_back(root->data);
+   
+   bool l=check(root->left,v);
+   bool r=check(root->right,v);
+   
+   return (l&&r);
+}
+bool isDeadEnd(Node *root)
+{
+    vector<int> v;
+   bool t;
+   t=check(root,v);
+    return !(t);
+}

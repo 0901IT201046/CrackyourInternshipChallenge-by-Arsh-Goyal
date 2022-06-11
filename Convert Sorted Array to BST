@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+   TreeNode* Solve(vector<int> &nums,int minm,int maxm)
+   {
+        
+        if(minm>maxm or minm<0 or maxm >= nums.size())
+        {
+            return NULL;
+        }
+        
+        int mid = (minm + maxm + 1)/2;
+        TreeNode *root = new TreeNode(nums[mid]);
+        root->left = Solve(nums,minm,mid-1);
+        root->right = Solve(nums,mid+1,maxm);
+        return root;        
+    }
+    
+    TreeNode* sortedArrayToBST(vector<int>& nums) 
+    {
+        int n=nums.size();
+        return Solve(nums, 0,n-1);;
+    }
+};

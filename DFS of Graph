@@ -1,0 +1,44 @@
+class Solution
+{
+void dfs(int i,vector<int> adj[],int V,bool vis[],vector<int> &ans){
+       
+       if(vis[i])
+       {
+           return;
+       }
+       
+       vis[i] =true;
+       
+       ans.push_back(i);
+       
+       for(int j : adj[i])
+       {
+           if(!vis[j])
+           {
+               
+               dfs(j,adj,V,vis,ans);
+           }
+       }
+   }
+   
+  public:
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) 
+    {
+         bool vis[V];
+       memset(vis,false,sizeof(vis));
+       
+       
+       vector<int> ans;
+       
+       for(int i=0;i<V;i++)
+       {
+           
+           if(!vis[i])
+           {
+               dfs(i,adj,V,vis,ans);
+           }
+       }
+       
+       return ans;
+    }
+};

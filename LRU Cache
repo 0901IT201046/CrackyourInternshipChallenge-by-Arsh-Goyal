@@ -1,0 +1,48 @@
+class LRUCache
+{
+    
+    int cap;
+    using list_t = list<pair<int,int>>;
+    unordered_map<int, list_t::iterator> tbl;
+    list_t lst;
+
+    public:
+    //Constructor for initializing the cache capacity with the given value.
+    LRUCache(int cap)
+    {
+        
+    }
+    
+    //Function to return value corresponding to the key.
+    int get(int key)
+    {
+        auto it = tbl.find(key);
+        if(it==tbl.end())
+            return -1;
+        auto value = it->second->second;
+        lst.erase(it->second);
+        lst.emplace_front(key, value);
+        it->second = lst.begin();
+        return value;
+    }
+    
+    //Function for storing key-value pair.
+    void set(int key, int value)
+    {
+         auto it = tbl.find(key);
+        if(it!=tbl.end())
+        {
+            lst.erase(it->second);
+            lst.emplace_front(key, value);
+            it->second = lst.begin();
+        }
+        else {
+            lst.emplace_front(key, value);
+            tbl[key] = lst.begin();
+            if(tbl.size()>cap) {
+                tbl.erase(lst.back().first);
+                lst.pop_back();
+            }
+        } 
+    }
+};

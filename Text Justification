@@ -1,0 +1,100 @@
+class Solution {
+public:
+
+vector<string> fullJustify(vector<string>& words, int maxWidth) {
+    int n=words.size();
+    vector<string>ans;
+    string str;
+    string spc(" ");
+    int i=0, wordsize, x=maxWidth;
+    while(i<n){
+        wordsize=words[i].size();
+        if(wordsize<=x){
+            str+=words[i];
+            x=x-wordsize;
+            if(x>0){
+                str+=spc;
+                x-=1;
+            }
+            
+            i++;
+            
+            
+        }
+        
+        else{
+            for(int j=0; j<x; j++){
+                str+=spc;
+            }
+            
+            
+            ans.push_back(str);
+            str.clear();
+            x=maxWidth;
+        }
+        
+        
+    }
+    for(int j=0; j<x; j++){
+                str+=spc;
+            }
+    ans.push_back(str);
+    
+    
+    int size=ans.size(), insize=maxWidth;
+    
+    for(int i=0; i<size-1; i++){
+        int wordcount=0, spacecount=0;
+        string spc(" ");
+    
+        for(int j=1; j<insize; j++){
+            if(ans[i][j] == ' '  && ans[i][j-1] == ' '){
+            break;
+            }
+            if(ans[i][j] == ' '){
+                wordcount++;
+            }
+        
+        
+        }
+    
+    
+    if(wordcount>1){
+        int q=insize-1;
+        while(ans[i][q]==' '){
+            spacecount++;
+            ans[i].pop_back();
+            q--;
+        }
+        int eqspace=spacecount/(wordcount-1);
+        int extspace=spacecount%(wordcount-1);
+        int e;
+        int k=0;
+        
+        while( k<maxWidth){
+            if(ans[i][k] == ' '){
+                e=eqspace;
+                while(e>0){
+                    ans[i].insert(k,spc);
+                    e--;
+                    k++;
+                }
+                if(extspace>0){
+                    ans[i].insert(k,spc);
+                    extspace--;
+                    k++;
+                }
+                
+                
+            }
+            k++;
+        }
+        
+        
+        
+    }
+    }
+    
+    return ans;
+}
+};

@@ -1,0 +1,65 @@
+class Solution {
+public:
+    set<pair<int,int>> st;
+    vector<vector<int>> adj;
+    int cycle = -1;
+    bool dfs(int node, int src, vector<bool> &vis)
+    {
+        vis[node] = true;
+		
+        for(int nbr : adj[node])
+        {
+            if(!vis[nbr])
+            {
+                if(dfs(nbr, node, vis))
+                {
+                    if(cycle != -1)
+                    {
+                        st.insert({node, nbr});
+                        if(node == cycle)
+                        {
+                            cycle = -1;
+                        }
+                    }
+                    return true;
+                }
+            } 
+            else if(nbr != src)
+            {
+                cycle = nbr;
+                st.insert({node, nbr});
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        //find the cycle in the undirected graph
+        //store all the edges participating in that cycle
+        //iterate from the end in edges and the first edge that exist 
+        //in our cycle DS will be our answer
+        
+        int n = edges.size();
+        adj.resize(n);
+        for(auto v : edges)
+        {
+            adj[v[0]-1].push_back(v[1]-1);
+            adj[v[1]-1].push_back(v[0]-1);
+        }
+        
+        vector<bool> vis(n, false);
+        dfs(0, -1, vis);
+        
+        for(int i=edges.size()-1; i>=0; --i)
+        {
+            int s = edges[i][0]-1, e = edges[i][1]-1;
+            
+            if(st.find({s, e})!=st.end() || st.find({e, s})!=st.end())
+            {
+                return {s+1, e+1};
+            }
+        }
+        return {1, 1};
+    }
+};

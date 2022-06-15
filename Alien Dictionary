@@ -1,0 +1,49 @@
+string findOrder(string dict[], int N, int K) 
+{
+        vector<int>g[K+1],indeg(K+1);
+        for(int i=0;i<N-1;i++)
+        {
+            if(dict[i]==dict[i+1])
+              continue;
+            else
+            {
+                int j=0,k=0;
+                if(dict[i]==dict[i+1])
+                  continue;
+                while(j<dict[i].length()&&k<dict[i+1].length())
+                {
+                 
+                     if(dict[i][j]!=dict[i+1][k])
+                     {
+                        g[(int)(dict[i][j])-97].push_back(((int)dict[i+1][k]-97));
+                        indeg[((int)dict[i+1][k])-97]++;
+                        break;
+                        }
+                    j++;
+                    k++;
+                    if(j==dict[i].length()||k==dict[i+1].length())
+                      break;
+                }
+                if(j==dict[i].length()&&k<dict[i+1].length())
+                  continue;
+            }
+        }
+        string ans;
+        queue<int>q;
+        for(int i=0;i<K;i++)if(indeg[i]==0)
+          q.push(i);
+        while(!q.empty())
+        {
+            int cur=q.front();
+            q.pop();
+            ans+=(char)(cur+97);
+            for(auto to:g[cur])
+            {
+                indeg[to]--;
+                if(indeg[to]==0)
+                  q.push(to);
+            }
+             }
+
+        return ans;
+    }

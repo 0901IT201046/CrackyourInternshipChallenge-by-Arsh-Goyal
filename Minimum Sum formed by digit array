@@ -1,0 +1,25 @@
+class Solution{
+    public:
+    long long int minSum(int arr[], int n)
+    {
+        int i,r1=0,r2=0;
+        long long int sum=0,s1=0,s2=0;
+        sort(arr,arr+n);
+        
+        for(i=0;i<n;i++)
+        {
+            if(i%2==0)
+            {
+                r1 = arr[i];
+                s1 = s1*10 + r1;
+            }
+            else
+            {
+              r2 = arr[i];
+              s2 = s2*10 + r2;
+            }
+        }
+        sum = s1 + s2;
+        return sum;
+    }
+};

@@ -1,0 +1,44 @@
+class Solution
+{
+public:
+
+void solve(int i,int sumTillNow,int k,vector<int>&arr,vector<int>&subset,vector<vector<int>>&ans)
+{
+   
+    if(sumTillNow==k)
+    {
+        ans.push_back(subset);
+        return;
+    }
+     if(i==arr.size())
+    {
+        return;
+    }
+    if(sumTillNow>k)
+    {
+        return;
+    }
+    subset.push_back(arr[i]);
+    sumTillNow+=arr[i];
+    solve(i+1,sumTillNow,k,arr,subset,ans);
+    subset.pop_back();  
+   sumTillNow-=arr[i];
+       while(i+1<arr.size() and arr[i]==arr[i+1])i++;
+          solve(i+1,sumTillNow,k,arr,subset,ans);
+  
+ 
+}
+
+
+vector<vector<int>> combinationSum2(vector<int>& candidates, int target) 
+{
+     vector<vector<int>>ans;
+    vector<int>subset;
+    vector<int>arr=candidates;
+    int k=target;
+    sort(arr.begin(),arr.end());
+    int sumTillNow=0;
+    solve(0,sumTillNow,k,arr,subset,ans);
+    return ans;
+}
+};

@@ -1,0 +1,44 @@
+class Solution{
+  public:
+  bool func(int nums[],int i,int n,int k,vector<int> &us)
+  {
+       if(!k)
+       {
+           return 1;
+       }
+       if(i==n) 
+        return 0;
+       for(int j=i;j<n;j++)
+       {
+           if(us[j] or nums[j]>k) 
+                continue;
+           if(func(nums,j+1,n,k-nums[j],us))
+           {
+               us[j]++;
+               return 1;
+           }
+       }
+       return 0;
+   }
+    bool isKPartitionPossible(int a[], int n, int k)
+    {
+         vector<int> us(n,0);
+        int s=0,b;
+        sort(a,a+n,greater<int>());
+        for(int i=0;i<n;i++) 
+            s+=a[i];
+        if(s%k) 
+            return false;
+        b=func(a,0,n,s/k,us);
+        int c=0;
+        while(b)
+        {
+            c++;
+            b=func(a,0,n,s/k,us);
+        }
+        if(c==k) 
+            return true;
+            
+        return false;
+    }
+};

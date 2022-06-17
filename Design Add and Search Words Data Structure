@@ -1,0 +1,48 @@
+class WordDictionary 
+{
+vector<WordDictionary*> dp;
+bool end;
+public:
+WordDictionary() 
+{
+
+    dp.resize(26, NULL);
+    end = false;
+}
+
+void addWord(string word) 
+{
+    
+    auto tmp = this;
+    for(auto &i : word)
+    {
+        if(!tmp->dp[i - 'a'])
+            tmp->dp[i - 'a'] = new WordDictionary;
+        
+        tmp = tmp->dp[i - 'a'];
+    }
+    
+    tmp->end = true;
+}
+
+bool search(string word) 
+{  
+    
+    return search(word, 0, this);
+}
+
+bool search(string &word, int i, WordDictionary *tmp) 
+{
+    if(i == word.size())
+        return tmp->end;
+    
+    if(word[i] != '.')
+        return tmp->dp[word[i] - 'a'] && search(word, i + 1, tmp->dp[word[i] - 'a']);
+
+    for(int j = 0; j < 26; j++)
+        if(tmp->dp[j] && search(word, i + 1, tmp->dp[j]))
+            return true;
+    
+    return false;
+}
+};

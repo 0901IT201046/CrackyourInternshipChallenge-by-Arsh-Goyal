@@ -1,0 +1,90 @@
+struct SegmentTreeNode
+{
+    long st;
+    long ed;
+    int count;
+    SegmentTreeNode* left;
+    SegmentTreeNode* right;
+    SegmentTreeNode(long x, long y, int c):st(x),ed(y),count(c),left(nullptr),right(nullptr){}
+    SegmentTreeNode(long x, long y, int c, SegmentTreeNode* l, SegmentTreeNode* r):st(x),ed(y),count(c),left(l),right(r){}
+};
+class Solution 
+{
+private:
+    int queryTree(SegmentTreeNode* root, long minIdx, long maxIdx)
+    {
+        int result=0;
+        if(root==nullptr)
+            return 0;
+        long low=root->st, high=root->ed, mid=floor(low+(high-low)/2);
+        if(maxIdx<low || minIdx>high)
+            return 0;
+        else if(low==minIdx && high==maxIdx)
+            return root->count;
+
+        if(maxIdx<=mid)
+            return queryTree(root->left, minIdx, maxIdx);
+        else if(minIdx>mid)
+            return queryTree(root->right, minIdx, maxIdx);
+        else
+            return queryTree(root->left, minIdx, mid)+queryTree(root->right, mid+1, maxIdx);
+    }
+    void update(SegmentTreeNode* root, long pivot){
+        long low=root->st, high=root->ed, mid=floor(low+(high-low)/2);
+        if(low==pivot && high==pivot)
+        {
+            root->count++;
+            return;
+        }
+        if(pivot<=mid){
+            if(root->left==nullptr)
+                root->left = new SegmentTreeNode(low, mid, 0);
+            update(root->left, pivot);
+        }
+        else{
+            if(root->right==nullptr)
+                root->right = new SegmentTreeNode(mid+1, high, 0);
+            update(root->right, pivot);
+        }
+        if(root->left!=nullptr && root->right!=nullptr){
+            root->count = root->left->count + root->right->count;
+        }
+        else if(root->left==nullptr && root->right!=nullptr){
+            root->count = root->right->count;
+        }
+        else if(root->left!=nullptr && root->right==nullptr){
+            root->count = root->left->count;
+        }
+        return;
+    }
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper)
+    {
+        int ans=0, n=nums.size();
+        long tmp=0, minV=0, maxV=0, minVal=INT_MAX, maxVal=INT_MIN;
+        vector<long> prefixSum;
+        prefixSum.push_back(0);
+        for(int i=0; i<n; ++i){
+            if(nums[i]<minVal)
+                minVal=nums[i];
+            if(nums[i]>maxVal)
+                maxVal=nums[i];
+            tmp+=nums[i];
+            if(tmp<minV)
+                minV=tmp;
+            if(tmp>maxV)
+                maxV=tmp;
+            prefixSum.push_back(tmp);
+        }
+        if((maxVal<=0 && maxVal<lower) || (minVal>=0 && minVal>upper))
+            return 0;
+        minV=min(minV,minV-upper);
+        maxV=max(maxV,maxV-lower);
+        SegmentTreeNode* root = new SegmentTreeNode(minV, maxV, 0);
+        for(int i=0; i<=n; ++i){
+            ans+=queryTree(root,prefixSum[i]-upper,prefixSum[i]-lower);
+            update(root, prefixSum[i]);
+        }
+        return ans;
+    }
+};

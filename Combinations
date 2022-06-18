@@ -1,0 +1,30 @@
+class Solution 
+{
+public:
+    vector<vector<int>>formCombinations(int s,int n ,int k)
+    {
+        if(k<=0)
+            return {{}};
+        
+    vector<vector<int>> ans;
+     for(int i=s;i<=n;i++)
+     {
+         vector<vector<int>> vec = formCombinations(i+1,n,k-1);
+         for(auto v:vec)
+         {
+             vector<int> temp;
+             temp.push_back(i);
+             for(auto j:v)
+                 temp.push_back(j);  
+             
+             ans.push_back(temp);
+         }
+         
+     }
+        return ans;
+    }
+    vector<vector<int>> combine(int n, int k) 
+    {
+        return formCombinations(1,n,k);
+    }
+};

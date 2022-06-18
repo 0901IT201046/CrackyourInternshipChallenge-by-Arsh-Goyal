@@ -1,0 +1,32 @@
+class Solution 
+{
+private:
+void solve(vector &nums,vector &output , int index, vector<vector> &ans)
+{
+if(index>=nums.size())
+{
+ans.push_back(output);
+return;
+}
+
+output.push_back(nums[index]);
+solve(nums , output,index+1,ans);
+output.pop_back();
+
+while(index+1<nums.size() && nums[index]==nums[index+1])
+index++;
+solve(nums , output,index+1,ans);
+return;
+
+}
+public:
+vector<vector> subsetsWithDup(vector& nums) 
+{
+sort(nums.begin(),nums.end());
+vector<vector> ans;
+vector output;
+int index=0;
+solve(nums,output,index,ans);
+return ans;
+}
+};

@@ -1,0 +1,37 @@
+{
+public:
+bool dfs(int node,vector<int> adj[],vector<bool> &vis,vector<bool> &recs)
+{
+   vis[node]=true;
+   recs[node]=true;
+   for(auto i:adj[node])
+   {
+       if(!vis[i])
+       {
+           if(dfs(i,adj,vis,recs))
+           return true;
+       }
+       if(recs[i])
+       return true;
+   }
+   recs[node]=false;
+   return false;
+}
+	bool isPossible(int N, vector<pair<int, int> >& prerequisites) 
+  {
+	      vector<int> adj[N];
+   for(auto it:prerequisites)
+       adj[it.first].push_back(it.second);
+       vector<bool> vis(N,false);
+       vector<bool> recs(N,false);
+    for(int i=0;i<N;i++)
+    {
+        if(!vis[i])
+        {
+            if(dfs(i,adj,vis,recs))
+            return false;
+        }
+    }
+    return true;
+	}
+};

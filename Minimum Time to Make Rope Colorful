@@ -1,0 +1,32 @@
+class Solution 
+{
+public:
+    int minCost(string colors, vector<int>& neededTime) 
+    {
+        int ans=0, n=neededTime.size();
+        stack<int> st;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(st.empty()) 
+                st.push(i);
+            else if(colors[st.top()]!=colors[i]) 
+                st.push(i);
+            else if(colors[st.top()] == colors[i])
+            {
+                if(neededTime[st.top()] < neededTime[i])
+                {
+                    ans+=neededTime[st.top()];
+                    st.pop();
+                    st.push(i);
+                }
+                else
+                {
+                    ans+=neededTime[i];
+                }
+            }
+        }
+        
+        return ans;
+    }
+};

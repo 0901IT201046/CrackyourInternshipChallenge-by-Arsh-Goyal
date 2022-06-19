@@ -1,0 +1,35 @@
+class Solution {
+public:
+	int minDeletions(string s) 
+  {
+		int n = s.size();
+		int ar[26]{};
+		for(int i=0;i<n;i++)
+    {
+			ar[s[i]-'a']++; 
+		}
+		set<int> st;
+		int visited[26]{};
+		int ans = 0;
+		for(int i=0;i<n;i++){
+			if(visited[s[i]-'a'])
+        continue;
+			visited[s[i]-'a']=1; 
+			if(!st.count(ar[s[i]-'a']))st.insert(ar[s[i]-'a']); 
+			else{
+				int f = 1;
+				for(int j=ar[s[i]-'a'];j>0;j--)
+        { 
+					if(st.count(j))
+            continue;
+					ans += ar[s[i]-'a'] - j;
+					st.insert(j);
+					f = 0; 
+					break;
+				}
+				if(f)ans += ar[s[i]-'a'];
+			}
+		}
+		return ans;
+	}
+};

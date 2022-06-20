@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void recur(vector<vector<int>> &image,int i,int j,int x,int &color)
+    {
+        image[i][j]=color;
+        if(i-1>=0 && image[i-1][j]==x)
+        {
+            recur(image,i-1,j,x,color);
+        }
+        if(i+1<image.size() && image[i+1][j]==x)
+        {
+            recur(image,i+1,j,x,color);
+        }
+        if(j-1>=0 && image[i][j-1]==x)
+        {
+            recur(image,i,j-1,x,color);
+        }
+        if(j+1<image[0].size() && image[i][j+1]==x)
+        {
+            recur(image,i,j+1,x,color);
+        }
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) 
+    {
+        if(image[sr][sc]==color)
+        {
+            return image;
+        }
+        recur(image,sr,sc,image[sr][sc],color);
+        return image;
+    }
+};

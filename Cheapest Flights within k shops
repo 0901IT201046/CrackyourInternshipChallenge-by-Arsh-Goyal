@@ -1,0 +1,53 @@
+class Solution 
+{
+public:
+    int dp[101][101];
+    int func(vector<pair<int,int>> adj[], int node, int dst, int k)
+    {
+        if(node==dst)
+        {
+            return 0;
+        }
+        
+        if(k<=0)
+        {
+            return -1;
+        }
+        
+        if(dp[node][k]!=-2)
+        {
+            return dp[node][k];
+        }
+        
+        int mn=INT_MAX;
+        for(pair<int,int> p:adj[node])
+        {
+            int val=func(adj,p.first,dst,k-1);
+            if(val!=-1)
+            {
+                mn=min(mn,val+p.second);
+            }
+        }
+        
+        return dp[node][k]=mn==INT_MAX?-1:mn;
+    }
+    
+    
+    int findCheapestPrice(int n, vector<vector<int>>& nums, int src, int dst, int k) 
+    {
+        vector<pair<int,int>> adj[n];
+        for(int i=0;i<nums.size();i++)
+        {
+            adj[nums[i][0]].push_back({nums[i][1],nums[i][2]});
+        }    
+        
+        for(int i=0;i<101;i++)
+        {
+            for(int j=0;j<101;j++)
+            {
+                dp[i][j]=-2;
+            }
+        }
+        return func(adj,src,dst,k+1);
+    }
+};

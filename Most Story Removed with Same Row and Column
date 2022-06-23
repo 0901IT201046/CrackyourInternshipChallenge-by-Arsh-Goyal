@@ -1,0 +1,46 @@
+class Solution 
+{
+public:
+    void dfs(int s,vector<bool>& vis,vector<int>row[],vector<int>col[],int &res)
+    {
+        if(vis[s])
+          return ;
+        vis[s]=true;
+        res+=row[s].size();
+        for(auto x:row[s])
+        {
+            for(auto p:col[x])
+            {
+                dfs(p,vis,row,col,res);
+            }
+        }
+    }
+    int removeStones(vector<vector<int>>& stones) 
+    {
+        int maxi=-1;
+        int n=stones.size();
+        for(int i=0;i<n;i++)
+        {
+            maxi=max(maxi,max(stones[i][0],stones[i][1]));
+        }
+        vector<int>row[maxi+1];
+        vector<int>col[maxi+1];
+        vector<bool>vis(maxi+1,false);
+        for(int i=0;i<n;i++)
+        {
+            row[stones[i][0]].push_back(stones[i][1]);
+            col[stones[i][1]].push_back(stones[i][0]);
+        }
+        int ans=0;
+        for(int i=0;i<maxi+1;i++)
+        {
+            if(!vis[i])
+            {
+                int res=0;
+                dfs(i,vis,row,col,res);
+                ans+=res<1?0:res-1;
+            }
+        }
+        return ans;
+    }
+};

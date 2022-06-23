@@ -1,0 +1,70 @@
+class Solution 
+{
+public:
+    string decodeString(string s) 
+    {
+        int i = 0, n = s.size();
+        vector<int> counter;
+        vector<string> decode; 
+        while(i < n)
+        {
+            int num = 0; 
+            while(s[i] >= '0' && s[i] <= '9')
+            {
+                num *= 10; 
+                num += (int)s[i] - (int)'0'; 
+                i++; 
+            }
+           
+            if(num == 0)
+            {
+                string curr = "";
+                while(s[i] > '9')
+                {
+                    curr += s[i]; 
+                    i++;
+                }
+               
+                counter.push_back(0); 
+                decode.push_back(curr); 
+            }
+            else{
+                counter.push_back(num); 
+                int flag = 1; 
+                i++;
+                string curr = "";
+                
+                while(flag > 0)
+                { 
+                    if(s[i] == '[')
+                        flag++;
+                    else if (s[i] == ']')
+                    {
+                        flag--; 
+                    }
+                    if (flag == 0)
+                    {
+                        i++;
+                        break;
+                    }
+                    curr += s[i];
+                    i++; 
+                }
+                decode.push_back(curr);
+            }
+        }
+        string ans = "";
+        for(int i = 0; i<counter.size(); ++i)
+        {
+            if(counter[i] == 0) 
+                ans += decode[i];
+            else{
+                for(int j = 0; j<counter[i]; ++j)
+                {
+                    ans += decodeString(decode[i]);
+                }
+            }     
+        }
+        return ans;
+    }
+};

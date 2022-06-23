@@ -1,0 +1,19 @@
+class Solution 
+{
+    int dfs(unordered_map<int, vector<int>> &tree, vector<int>& iT, int node)
+    {
+        int time=0;
+        for(auto child: tree[node])
+            time=max(time, dfs(tree, iT, child));
+        return time+iT[node];
+    }
+public:
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& iT) 
+    {
+        unordered_map<int, vector<int>> tree;
+        for(int i=0; i<n; i++)
+            if(manager[i]!=-1)
+                tree[manager[i]].push_back(i);
+        return dfs(tree, iT, headID);
+    }
+};

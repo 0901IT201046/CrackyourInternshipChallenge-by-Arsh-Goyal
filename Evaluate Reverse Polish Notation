@@ -1,0 +1,45 @@
+class Solution 
+{
+public:
+    int evalRPN(vector<string>& tokens) 
+    {
+       stack<int> s;
+       int s1=0,s2=0,z=0;
+       int n = tokens.size();
+       int i;
+       for(i=0;i<n;i++)
+       {
+           if(tokens[i]=="+"||tokens[i]=="-"||tokens[i]=="*"||tokens[i]=="/")
+           {
+               s1 = s.top();
+               s.pop();
+               s2 = s.top();
+               s.pop();
+               if(tokens[i]=="+")
+               {
+                 z = s1 + s2;  
+               }
+               else if(tokens[i]=="-")
+               {
+                   z = s2 - s1;
+               }
+               else if(tokens[i]=="*")
+               {
+                   z = s1 * s2;
+               }
+               else if(tokens[i]=="/")
+               {
+                   z = s2 / s1;
+               }
+               s.push(z);
+           }
+           else
+           {
+           s.push(stoi(tokens[i]));
+           }
+       }
+        int x = s.top();
+        s.pop();
+        return x;
+    }
+};

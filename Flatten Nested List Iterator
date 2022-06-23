@@ -1,0 +1,37 @@
+class NestedIterator 
+{
+    vector<int>dp;
+    int p=0;
+public:
+    NestedIterator(vector<NestedInteger> &nestedList)
+    {
+        int i=0;
+        while(i<nestedList.size())
+        {
+           if(nestedList[i].isInteger())
+           {
+               dp.push_back(nestedList[i].getInteger());
+               
+           }
+            else
+            {
+              NestedIterator im(nestedList[i].getList());
+               while (im.hasNext())
+               {
+                   dp.push_back(im.next());
+               }
+            }
+            i++;
+        }
+    }
+    
+    int next() 
+    {
+        return dp[p++];
+    }
+    
+    bool hasNext() 
+    {
+        return p!=dp.size();
+    }
+};

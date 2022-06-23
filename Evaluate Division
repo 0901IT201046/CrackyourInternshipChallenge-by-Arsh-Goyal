@@ -1,0 +1,65 @@
+class Solution 
+{
+public:
+	double runningProduct = 1;
+	unordered_map<string, unordered_map<string, double>> graph;
+	bool dfs(string src, string dest, unordered_set<string> visited) 
+  {
+
+		if (graph.find(src) == graph.end()) 
+    {
+			return false;
+		}
+
+		if (graph[src].count(dest) != 0)
+    {
+			runningProduct *= graph[src][dest];
+			return true;
+		}
+		visited.insert(src);
+		for (auto nbr : graph[src]) 
+    {
+			if (visited.count(nbr.first) == 0) 
+      {
+				if (dfs(nbr.first, dest, visited))
+        {
+					runningProduct *= nbr.second;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries)
+   {
+		int index = 0;
+	
+		for (auto equation : equations) 
+    {
+			string src = equation[0];
+			string dest = equation[1];
+      graph[src].insert({dest, values[index]});
+			graph[dest].insert({src, (double)1 / values[index]});
+			index++;
+		}
+
+		vector<double> ans;
+		unordered_set<string> visited;
+		for (auto query : queries) 
+    {
+			runningProduct = 1;
+			if (dfs(query[0], query[1], visited)) 
+      {
+				ans.push_back(runningProduct);
+			}
+			
+			else 
+      {
+				ans.push_back((double) - 1);
+			}
+			visited.clear();
+		}
+
+		return ans;
+	}
+};

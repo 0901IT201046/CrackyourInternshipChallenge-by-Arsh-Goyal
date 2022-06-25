@@ -1,0 +1,30 @@
+class Solution 
+{
+public:
+    bool canCross(vector<int>& stones)
+    {
+        int n=stones.size();
+        map<int,unordered_set<int>>m;
+        for(auto &i:stones)
+            m[i].insert(0);
+        m[0].insert(1);
+        for(auto &i:stones)
+        {
+            unordered_set<int>cur=m[i];
+            for(auto &k:cur)
+            {
+                if(k<=0)continue;
+                int pos=k+i;
+                if(pos==n-1)
+                  return true;
+                if(m.count(pos))
+                {
+                    m[pos].insert(k);
+                    m[pos].insert(k+1);
+                    m[pos].insert(k-1);
+                }
+            }
+        }
+        return false;
+    }
+};

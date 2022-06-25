@@ -1,0 +1,28 @@
+class Solution 
+{
+public:
+    int countSquares(vector<vector<int>>& matrix) 
+    {
+        vector<vector<int>> a=matrix;
+        int n= a.size() , m = a[0].size() ; 
+        
+        for(int i= 0 ;i< n; i++)
+        {
+            for(int j= 0 ;j< m ;j++)
+            {
+                if(i*j == 0) 
+                  continue ; 
+                if(a[i][j] ==1 )
+                {
+                    a[i][j] = min({a[i-1][j-1],a[i-1][j],a[i][j-1]}) + 1 ; 
+                }
+            }
+        }
+        int ans = 0  ; 
+        for(auto x : a) 
+          for(auto y : x) 
+            ans += y ; 
+            
+        return ans ; 
+    }
+};
